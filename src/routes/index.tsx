@@ -1,34 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createCollection, useLiveQuery } from "@tanstack/react-db";
-import { createLiveQueryCollection } from "@tanstack/db";
-import { z } from "zod";
-
-const todosCollection = createCollection({
-  getKey: (todo) => todo.id,
-  schema: z.object({
-    id: z.number(),
-    text: z.string(),
-    finished: z.boolean(),
-  }),
-  startSync: true,
-  sync: {
-    sync: ({}) => {},
-  },
-  onInsert: (data) => Promise.resolve(data),
-});
-
-todosCollection.insert(
-  {
-    id: 10,
-    text: "foo",
-    finished: false,
-  },
-  {
-    optimistic: true,
-  }
-);
-
-todosCollection.startSyncImmediate();
+import { useLiveQuery, createLiveQueryCollection } from "@tanstack/react-db";
+import { todosCollection } from "../collection"
 
 export const Route = createFileRoute("/")({
   component: App,
